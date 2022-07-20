@@ -1,4 +1,5 @@
 Role Name  - deploy_docker_nginx
+
 данный плэйбук работает только на Debian
 Позже доработаю его и будет годен и для RED HAT.
 

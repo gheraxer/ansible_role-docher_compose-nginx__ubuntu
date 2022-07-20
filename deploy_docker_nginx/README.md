@@ -1,38 +1,72 @@
-Role Name
+Role Name  - deploy_docker_nginx
+данный плэйбук работает только на Debian
+Позже доработаю его и будет годен и для RED HAT.
+
 =========
+Роль так настроена.
 
-A brief description of the role goes here.
+конфиг инсибла что находится по пути
+/etc/ansible/ansible.cfg
+нужно добавить эти строки    (чтобы каждый раз не писать -i во время вызова плэйбука.) 
+*************************/etc/ansible/ansible.cfg******************************
+[defaults]
+host_key_cheking = false
+inventory        = /home/{{user_name}}/ansible/hosts.txt
+#####(всё верно, это отдельно созданная папка для ансибла и указал её по умолчанию, в следующих версиях надо будет это поправить).
 
-Requirements
-------------
+А что находится в hosts.txt 
+*****************************
+[test]
+linux ansible_host=IP_машины. 
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+[test:vars]
+ansible_user=root
+ansible_ssh_private_key_file=/home/ubuntu/.ssh/test.pem
+*************************************************************************
 
-Role Variables
---------------
+Ну а теперь, находясь в папке /home/{{user_name}}/ansible/docker_insatal.yml"
+запускаем плэйбук
+ansible-playbook docker_insatal.yml
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+внутри которого 
+*********************docker_insatal.yml*********************
+---
+- hosts: all
+  remote_user: root
+  become: true
+  roles:
+   - { role: deploy_docker_nginx, when: ansible_distribution_file_variety == "Debian" }
+************************************************************
+этого я не добавил в гит, так же есть над чем поработать и исправить. 
 
-Dependencies
-------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
-Example Playbook
+Example Playbook   
+Кусочек таска*
+- name: Run docker-compose
+  become: true
+  shell:
+    cmd: "docker-compose up --build -d"  
+
+
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+если нужно заменить изображение, тогда в папку 
+/ansible/deploy_docker_nginx/files/
+кидаем картинку с именем " 1.jpg " .
+Если нужно больше колличество - тогда нужно в task/main.yml  "name: Copy JPG and Index "
+добавить после
+loop:
+  - "имя фаила_что_расположен_в_files"
+     
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
-License
--------
 
-BSD
+
 
 Author Information
 ------------------
+Герман Осипов 
+Это мой первый проэкт в Гите для Ansible, но мне понравилось.
 
 An optional section for the role authors to include contact information, or a website (HTML is not allowed).

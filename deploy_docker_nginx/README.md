@@ -61,12 +61,8 @@ loop:
      
 
 
-
-
-
 Author Information
 ------------------
 Герман Осипов 
 Это мой первый проэкт в Гите для Ansible, но мне понравилось.
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).

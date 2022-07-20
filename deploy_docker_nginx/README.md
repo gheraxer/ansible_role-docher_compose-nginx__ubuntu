@@ -3,13 +3,18 @@ Role Name  - deploy_docker_nginx
 данный плэйбук работает только на Debian
 Позже доработаю его и будет годен и для RED HAT.
 
+
 =========
 Роль так настроена.
 
 конфиг инсибла что находится по пути
+
 /etc/ansible/ansible.cfg
+
 нужно добавить эти строки    (чтобы каждый раз не писать -i во время вызова плэйбука.) 
+
 *************************/etc/ansible/ansible.cfg******************************
+
 [defaults]
 host_key_cheking = false
 inventory        = /home/{{user_name}}/ansible/hosts.txt
